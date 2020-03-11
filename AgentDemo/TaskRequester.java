@@ -2,7 +2,7 @@ package AgentDemo;
 import PoolPattern.ObjectPool;
 import Java.lang.runnable;
 
-public class TaskRequester{
+public class TaskRequester implements runnable{
     private ObjectPool server;
 
     TaskRequester(ObjectPool p){

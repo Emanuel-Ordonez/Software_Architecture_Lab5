@@ -1,6 +1,6 @@
 package AgentDemo;
 
-public class FBI_Agent{
+public class FBI_Agent implements Agent_IF, runnable{
     private boolean workingInProgress;
     private String myFootPrint;
 

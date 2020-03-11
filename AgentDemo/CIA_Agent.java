@@ -1,6 +1,6 @@
 package AgentDemo;
 
-public class CIA_Agent {
+public class CIA_Agent implements Agent_IF, runnable{
     private boolean workingInProgress;
     private String myFootPrint;
 

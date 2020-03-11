@@ -72,7 +72,7 @@ public class ObjectPool implements ObjectPool_IF {
                 return createObject();
             else{
                 do{ //wait until notified that an object has been put back in the pool
-                    wait();
+                    System.out.println("wait();");//wait();
                 }while(size <= 0);
                 return removeObject();
             }

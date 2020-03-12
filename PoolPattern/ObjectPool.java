@@ -3,7 +3,7 @@ package PoolPattern;
 public class ObjectPool implements ObjectPool_IF {
 
     private static ObjectPool poolInstance;
-    private Object lockObject;
+    private Object lockObject = new Object();
     private int size; //how many free objects
     private int instanceCount; //how many objects have been created
     private int maxInstances; //maximum objects to be created
@@ -12,6 +12,7 @@ public class ObjectPool implements ObjectPool_IF {
 
 
     private ObjectPool(ObjectCreation_IF c, int max){
+        size = 0;
         instanceCount = 0;
         creator = c;
         maxInstances = max;
@@ -64,6 +65,7 @@ public class ObjectPool implements ObjectPool_IF {
         }
     }
 
+    @Override
     public Object waitForObject(){
         synchronized(lockObject) {
             if(size > 0)
@@ -71,8 +73,13 @@ public class ObjectPool implements ObjectPool_IF {
             else if(getInstanceCount() < getMaxInstances())
                 return createObject();
             else{
-                do{ //wait until notified that an object has been put back in the pool
-                    System.out.println("wait();");//wait();
+                do{
+                    try {
+                        lockObject.wait();
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }while(size <= 0);
                 return removeObject();
             }
@@ -85,7 +92,9 @@ public class ObjectPool implements ObjectPool_IF {
     }
 
     public void release(Object o){
-        if(o == null) throw new NullPointerException();
+        if(o == null) {
+            throw new NullPointerException();
+        }
         synchronized (lockObject){
             if(getSize() < getCapacity()){
                 pool[size] = o;

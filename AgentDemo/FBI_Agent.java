@@ -1,44 +1,41 @@
 package AgentDemo;
-import Java.lang.runnable;
 import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class FBI_Agent implements Agent_IF{
-    private boolean workingInProgress;
+public class FBI_Agent implements Agent_IF, Runnable{
+    private boolean workingInProgress = false;
     private String myFootPrint;
+    private int FBI_ID;
 
     public FBI_Agent(String footprint){
-        this.workingInProgress = true;
         this.myFootPrint = footprint;
     }
 
+    @Override
     public void run(){
-        while(true){
-            if(workingInProgress){
-              try {
-                sleep(100);
-              } catch (InterruptedException ex) {
-                Logger.getLogger(FBI_Agent.class.getName()).log(Level.SEVERE, null, ex);
-              }
+        while(true) {
+            if (workingInProgress) {
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println(myFootPrint);
-            }
-            else{
-              try {
-                sleep(500);
-              } catch (InterruptedException ex) {
-                Logger.getLogger(FBI_Agent.class.getName()).log(Level.SEVERE, null, ex);
-              }
-                System.out.println("in FBI_Agent > run() > else");
+            } else {
+                processing();
             }
         }
     }
 
     public void startTask(){workingInProgress=true;}
+
     public void stopTask(){workingInProgress=false;}
 
-  @Override
-  public void setTaskID(int id) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
+    public void setTaskID(int id) {
+        this.FBI_ID=id;
+    }
+
+    private void processing(){
+
+    }
+
 }

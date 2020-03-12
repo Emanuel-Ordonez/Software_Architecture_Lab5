@@ -1,11 +1,8 @@
 package AgentDemo;
 import PoolPattern.ObjectPool;
-import Java.lang.runnable;
 import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class TaskRequester {
+public class TaskRequester implements Runnable{
     ObjectPool server;
     
     public TaskRequester(ObjectPool p){
@@ -18,7 +15,7 @@ public class TaskRequester {
       try {
         sleep(2000);//simulate task processing
       } catch (InterruptedException ex) {
-        Logger.getLogger(TaskRequester.class.getName()).log(Level.SEVERE, null, ex);
+          ex.printStackTrace();
       }
         agent.stopTask();
         server.release(agent);
